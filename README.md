@@ -1,6 +1,10 @@
 # Arduino Breakout 🦭
 
 <p align="center">
+  <img src="./Assets/gameplay.gif" alt="gameplay" />
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white" />
   <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" />
   <img src="https://img.shields.io/github/license/aydakikio/arduino_breakout?style=for-the-badge" />
@@ -96,7 +100,9 @@ Then follow Steps 2-5 from Method 1.
 
 ### Wiring
 
-Todo: just add a diagram 
+<p align="center">
+  <img src="./Assets/wiring.png" alt="wiring_diagram" width="80%" height="80%" />
+</p>
 
 ---
 
