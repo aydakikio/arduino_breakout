@@ -11,7 +11,8 @@
   <a href="#overview-">Overview🦤</a> •
   <a href="#features-">Features✨</a> •
   <a href="#installation-">Installation🐧</a> •
-  <a href="">Contribute🤝</a> •
+  <a href="#hardware-">Hardware🪿</a> •
+  <a href="#contribution-">Contribute🤝</a> •
   <a href="#developer-guidelines-">Developer Guidelines 🐳</a>
 </p>
 
@@ -85,13 +86,12 @@ Then follow Steps 2-5 from Method 1.
 
 ---
 
-## Hardware
+## Hardware 🪿
 
 ### Required Components
-- **Arduino Uno** (or compatible)
+- **Arduino Nano** (or compatible)
 - **128x64 OLED Display** (SSD1306/SH1106, I2C)
 - **2x Push Buttons**
-- **2x 10kΩ Resistors**
 - **Breadboard and jumper wires**
 
 ### Wiring
@@ -173,15 +173,14 @@ When reporting bugs, provide complete technical details to enable efficient repr
 - **Compiler Warnings:** [Yes/No - include if present]
 
 ## Serial Output / Error Messages
-```
+
 [Paste any error messages or serial monitor output here]
-```
 
 ## Additional Context
 - Modified code sections (if any)
 - Intermittent or consistent occurrence
 - Photographs of physical setup
-- Logic analyzer captures (for timing issues)
+- Logic analyser captures (for timing issues)
 - Relevant oscilloscope readings (for hardware issues)
 
 ## Attempted Solutions
@@ -336,7 +335,6 @@ U8G2_SH1106_128X64_NONAME_2_HW_I2C u8g2(U8G2_R3, -1, A5, A4);
 ✅ Use `#define` constants  
 
 ---
-
-## License
-
-MIT License - see [LICENSE](LICENSE).
+<p align="center">
+  <a href="#arduino-breakout-">Back to top ↑</a>
+</p>
