@@ -1,15 +1,15 @@
 #include <U8g2lib.h>
 
 // ===== HARDWARE CONFIGURATION =====
-U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R3, -1, A5, A4);
+U8G2_SH1106_128X64_NONAME_2_HW_I2C u8g2(U8G2_R3, -1, A5, A4);
 
 #define BTN_RIGHT 10
 #define BTN_LEFT 7
 #define PEDAL_SPEED 2
 
 // Game configuration
-#define MAX_BLOCKS 30
-#define BLOCK_ROWS 5
+#define MAX_BLOCKS 36
+#define BLOCK_ROWS 6
 #define BLOCK_COLS 6
 #define BLOCK_WIDTH 9
 #define BLOCK_HEIGHT 4
@@ -19,6 +19,10 @@ U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R3, -1, A5, A4);
 // Game States
 bool gameover = false;
 int blocks_remaining = 0;
+
+// Speed control
+unsigned long lastUpdateTime = 0;
+const int UPDATE_INTERVAL = 50; 
 
 struct Block{
   int x;
@@ -219,46 +223,57 @@ void handle_pedal_controls(){
 }
 
 void draw_game(){
-  u8g2.clearBuffer();
-  
+  // Handle paddle controls (keep responsive)
   handle_pedal_controls();
-  ball_pysics();
   
-  // Draw blocks
-  for(int i = 0; i < MAX_BLOCKS; i++){
-    if(blocks[i].active){
-      u8g2.drawBox(blocks[i].x, blocks[i].y, blocks[i].w, blocks[i].h);
-    }
+  // Only update ball physics at controlled intervals
+  unsigned long currentTime = millis();
+  if(currentTime - lastUpdateTime >= UPDATE_INTERVAL){
+    ball_pysics();
+    lastUpdateTime = currentTime;
   }
   
-  // Draw ball
-  u8g2.drawFilledEllipse(ball.x, ball.y, ball.r, ball.r);
-  
-  // Draw player pedal 
-  u8g2.drawBox(player_pedal.x, player_pedal.y, player_pedal.w, player_pedal.h);
+  // Draw everything
+  u8g2.firstPage();
+  do {
+    // Draw blocks
+    for(int i = 0; i < MAX_BLOCKS; i++){
+      if(blocks[i].active){
+        u8g2.drawBox(blocks[i].x, blocks[i].y, blocks[i].w, blocks[i].h);
+      }
+    }
     
-  u8g2.sendBuffer();
+    // Draw ball
+    u8g2.drawFilledEllipse(ball.x, ball.y, ball.r, ball.r);
+    
+    // Draw player pedal 
+    u8g2.drawBox(player_pedal.x, player_pedal.y, player_pedal.w, player_pedal.h);
+      
+  }while (u8g2.nextPage());
 }
 
 void draw_gameover(){
-  u8g2.clearBuffer();
-  
-  // Check if won or lost
-  bool won = (blocks_remaining == 0);
-  
-  if(won){
-    u8g2.setFont(u8g2_font_7x13B_mf);
-    u8g2.drawStr(4, 20, "YOU WIN!");
-  } else {
-    u8g2.setFont(u8g2_font_7x13_mf);
-    u8g2.drawStr(1, 20, "Game Over");
-  }
+  u8g2.firstPage();
+
+  do {
     
-  // Draw restart prompt
-  u8g2.setFont(u8g2_font_5x7_mf);
-  u8g2.drawStr(6, 65, "Press any");
-  u8g2.drawStr(4, 74, "button to");
-  u8g2.drawStr(10, 83, "restart!");
+    // Check if won or lost
+    bool won = (blocks_remaining == 0);
+    
+    if(won){
+      u8g2.setFont(u8g2_font_7x13B_mf);
+      u8g2.drawStr(4, 20, "YOU WIN!");
+    } else {
+      u8g2.setFont(u8g2_font_7x13_mf);
+      u8g2.drawStr(1, 20, "Game Over");
+    }
+      
+    // Draw restart prompt
+    u8g2.setFont(u8g2_font_5x7_mf);
+    u8g2.drawStr(6, 65, "Press any");
+    u8g2.drawStr(4, 74, "button to");
+    u8g2.drawStr(10, 83, "restart!");
   
-  u8g2.sendBuffer();
+  }while (u8g2.nextPage());
+
 }
